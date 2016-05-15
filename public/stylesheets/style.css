@@ -1,8 +1,13 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-}
+* {margin: 0; padding: 0;}
+body {font: 16px Georgia, serif; color:white; }
 
-a {
-  color: #00B7FF;
-}
+a {color:#0087ff;}
+
+section > div { padding: 20px;}
+
+header {text-align: center;}
+nav {text-align: center;}
+section {text-align: left;}
+footer {text-align: center;}
+
+nav a {margin: 0px 10px 0px 0px;}
