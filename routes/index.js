@@ -8,10 +8,6 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Quiz' });
 });
 
-/* GET author page. */
-router.get('/', function(req, res, next) {
-  res.render('author', { title: 'Quiz' });
-});
 
 router.get('/question',quizController.question);
 router.get('/check', quizController.check);
