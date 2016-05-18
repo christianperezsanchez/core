@@ -11,12 +11,13 @@ router.get('/', function(req, res, next) {
 //Autoload
 router.param('quizId', quizController.load);
 
-
-router.get('/quizzes', quizController.index);
-router.get('/quizzes/:quizId(\\d+)',quizController.show);
-router.get('/quizzes/:quizId/(\\d+)/check', quizController.check);
 //Definición de rutas de /quizzes
+router.get('/quizzes', quizController.index);
+router.get('/quizzes/:quizId(\\d+)', quizController.show);
+router.get('/quizzes/:quizId/(\\d+)/check', quizController.check);
+router.get('/quizzes/new', quizController.new);
+router.get('/quizzes', quizController.create);
 
-//router.get('/quizzes/:quizId(\\d+)', quizController.show);
-//router.get('/quizzes/:quizId(\\d+)/check', quizController.check);
+
+
 module.exports = router;
