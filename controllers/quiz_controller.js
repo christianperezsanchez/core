@@ -49,6 +49,12 @@ exports.show=function(req, res, next){
 	quiz.save({fields: ["question", "answer"]}).then(function(quiz) {
 		req.flash('succes', 'Quiz creado con éxito.');
 		res.redirect('/quizzes'); 
+	}).catch(Sequelize.ValidationError, function(error) {
+		req.flash('error', 'Errores en el formulario:');
+		for(var i in error.errors) {
+		req.flash('error', error.errors[i].value);
+		};
+		res.render('quizzes/new', {quiz: quiz});
 	}).catch(function(error) {
 		req.flash('error', 'Error al crear un Quiz: '+error.message);
 		next(error);
