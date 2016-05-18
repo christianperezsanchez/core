@@ -12,6 +12,8 @@ exports.load = function(req, res, next, quizId){
 }).catch(function(error) {next(error); });
 };
 
+
+
 //GET /quizzes
 exports.index= function(req, res, next){
   models.Quiz.findAll().then(function(quizzes){
@@ -45,8 +47,10 @@ exports.show=function(req, res, next){
 	var quiz= models.Quiz.build({ question: req.body.quiz.question, answer: req.body.quiz.answer});
    //guarda en DB los campos pregunta y respuesta de quiz
 	quiz.save({fields: ["question", "answer"]}).then(function(quiz) {
+		req.flash('succes', 'Quiz creado con éxito.');
 		res.redirect('/quizzes'); 
 	}).catch(function(error) {
+		req.flash('error', 'Error al crear un Quiz: '+error.message);
 		next(error);
 	});
 };

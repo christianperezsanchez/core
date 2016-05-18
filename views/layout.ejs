@@ -17,9 +17,46 @@
 
      <nav>
      	<a href="/">Inicio </a>
-     	<a href="/quizzes">Preguntas</a>
+     	<a href="/quizzes/show">Preguntas</a>
      </nav>
-     <table>
+
+	<section>
+	  <% if(messages.info){ %>
+	     <article id='flashinfo'>
+		<h3>Información de interés:</h3>
+		<ul>
+		  <% for(var i in messages.info[i] { %>
+		  <li> <%= messages.info[i] %> </li>
+		  <% } %>
+		</ul>
+	      </article>
+	  <% } %>
+
+	  <% if(messages.success) { %>
+	     <article id='flashsucces'>
+		<h3>Tareas completadas con éxito:</h3>
+		<ul>
+		  <% for(var i in messages.success) { %>
+		  <li> <%= messages.success[i] %> </li>
+		   <% } %>
+		</ul>
+	      </article>
+     	  <% } %>
+	  <% if(messages.error) { %>
+	     <article id='flasherror'>
+		<h3>Errores encontrados:</h3>
+		<ul>
+		  <% for(var i in messages.error) { %>
+		  <li> <%= messages.error[i] %> </li>
+		   <% } %>
+		</ul>
+	      </article>
+     	  <% } %>
+	</section>
+     </table>
+
+     <section>
+	<table>
 	<tr>
 	<td>
 		<a href="/quizzes/1">Capital de Italia</a>
@@ -31,10 +68,6 @@
 	</td>
 	</tr>
 
-
-     </table>
-
-     <section>
      	<div> <%- body %></div>
      </section>
 
