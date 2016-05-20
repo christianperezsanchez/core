@@ -28,12 +28,16 @@ exports.show=function(req, res, next){
      
 };
 
-//GET /quizzes/:id/check
- exports.check = function(req, res, next){
+// GET /quizzes/:quizId/check
+exports.check = function(req, res, next) {
+
 	var answer = req.query.answer || "";
-	var result= answer ===req.quiz.answer ? 'Correcta' : 'Incorrecta';
-	res.render('quizzes/result', {quiz:req.quiz, result:result, answer:answer });
- 
+
+	var result = answer === req.quiz.answer ? 'Correcta' : 'Incorrecta';
+
+	res.render('quizzes/result', { quiz: req.quiz, 
+								   result: result, 
+								   answer: answer });
 };
 
 //GET /quizzes/new
@@ -83,7 +87,16 @@ exports.update = function(req, res, next) {
 	});
 };
 
-
+//DELETE /quizzes/:id
+exports.destroy = function(req, res, next) {
+	req.quiz.destroy().then(function()  {
+	   req.flash('success', 'Quiz borrado con éxito.');
+	   req.redirect('/quizzes');
+	}).catch(function(error){
+	req.flash('error', 'Error al editar el Quiz: '+error.message);
+	next(error);
+	});
+};
 
 
 

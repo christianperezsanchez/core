@@ -1,79 +1,80 @@
 <!DOCTYPE html>
 <html>
-  <head>
-     <meta charset='utf-8'>
-     <title>Quiz</title>
-     <link rel='stylesheet' href='/stylesheets/style.css' />
-     <link rel="icon" href="favicon.ico" type="image/x-icon"/>
-     <link rel='stylesheet' type='text/css' media='only screen and (min-width: 800px) and (min-device-width: 600px)' href='/stylesheets/wide.css' />
-     <link rel='stylesheet' type='text/css' media='only screen and (max-width: 480px)' href='/stylesheets/smartphone.css' />
-  </head>
+<head>
+  <meta charset="utf-8">
+  <meta name="referrer" content="always" />
+  <title> Preguntas </title>
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+  <link rel='stylesheet' href='/stylesheets/style.css' />
+  <link rel='stylesheet' 
+        type='text/css'
+        media='only screen and (min-width: 800px) and (min-device-width: 600px)'
+        href='/stylesheets/wide.css' />
+  <link rel='stylesheet'
+        type='text/css'
+        media='only screen and (max-width: 480px)' 
+        href='/stylesheets/smartphone.css' />
+</head> 
 
   <body>
 
-     <header>
-     	<h2> Quiz: el juego de las preguntas</h2>
-     </header>
 
-     <nav>
-     	<a href="/">Inicio </a>
-     	<a href="/quizzes/show">Preguntas</a>
-     </nav>
+     <h2>Quiz<span class="no-narrow">: el juego de las preguntas</span></h2>
+    </header>
 
-	<section>
-	  <% if(messages.info){ %>
-	     <article id='flashinfo'>
-		<h3>Información de interés:</h3>
-		<ul>
-		  <% for(var i in messages.info[i] { %>
-		  <li> <%= messages.info[i] %> </li>
-		  <% } %>
-		</ul>
-	      </article>
-	  <% } %>
+      <nav class="main" role="navigation">
+        <a href="/">Inicio</a>
+        <a href="/quizzes">Preguntas</a>
+      </nav>
 
-	  <% if(messages.success) { %>
-	     <article id='flashsucces'>
-		<h3>Tareas completadas con éxito:</h3>
-		<ul>
-		  <% for(var i in messages.success) { %>
-		  <li> <%= messages.success[i] %> </li>
-		   <% } %>
-		</ul>
-	      </article>
-     	  <% } %>
-	  <% if(messages.error) { %>
-	     <article id='flasherror'>
-		<h3>Errores encontrados:</h3>
-		<ul>
-		  <% for(var i in messages.error) { %>
-		  <li> <%= messages.error[i] %> </li>
-		   <% } %>
-		</ul>
-	      </article>
-     	  <% } %>
-	</section>
-     </table>
+	 <section>
+            <% if (messages.info) { %>
+               <article id='flashinfo'>
+                 <h3>Información de interés:</h3>
+                 <ul>
+                    <% for (var i in messages.info) { %>
+                      <li> <%= messages.info[i] %> </li>
+                    <% } %>
+                 </ul>
+               </article>
+            <% } %>
 
-     <section>
-	<table>
-	<tr>
-	<td>
-		<a href="/quizzes/1">Capital de Italia</a>
-	</td>
-	</tr>
-        <tr>
-	<td>
-		<a href="/quizzes/2">Capital de Portugal</a>
-	</td>
-	</tr>
+            <% if (messages.success) { %>
+               <article id='flashsuccess'>
+                 <h3>Tareas completadas con éxito:</h3>
+                 <ul>
+                    <% for (var i in messages.success) { %>
+                       <li> <%= messages.success[i] %> </li>
+                    <% } %>
+                 </ul>
+               </article>
+            <% } %>
 
-     	<div> <%- body %></div>
-     </section>
+            <% if (messages.error) { %>
+               <article id='flasherror'>
+                 <h3>Errores encontrados:</h3>
+                 <ul>
+                    <% for (var i in messages.error) { %>
+                      <li> <%= messages.error[i] %> </li>
+                    <% } %>
+                 </ul>
+               </article>
+            <% } %>
+       </section>
 
-     <footer>
-     	<a href="http://es.wikipedia.org/wiki/Quiz"> ¿Qué es un Quiz?</a>
-     </footer>
+      <section class="main">
+        <div>
+          <%- body %>
+        </div>
+      </section>
 
-     </body>
-     </html>
+    <footer class="main">
+      <a href="http://es.wikipedia.org/wiki/Quiz">
+        ¿Que es un Quiz?</a>
+    </footer>
+  </div>
+</body> 
+</html>
+
+
+
