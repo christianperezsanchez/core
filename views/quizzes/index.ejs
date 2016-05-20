@@ -1,14 +1,18 @@
-<!DOCTYPE html>
-<html>
+
+<h2> <%= title || "Quizzes" %> </h2>
 
 <table>
-  <% for(var i in quizzes){ %>
+  <% for (var i in quizzes) { %> 
      <tr>
         <td>
-	   <a href="/quizzes/<%= quizzes[i].id %>"><%=quizzes[i].question %></a>
+	   <a href="/quizzes/<%= quizzes[i].id %>"><%= quizzes[i].question %></a>
 	</td>
+	<td>
+           <a href="/quizzes/<%= quizzes[i].id %>/edit"><button>editar</button></a>
+        </td>
      </tr>
   <% } %>
 </table>
- <a href="/quizzes/new"><button type="button"> Crear pregunta </button></a>
-</html>
+
+ 	   <a href="/quizzes/new"><button type="button"> Crear pregunta </button></a>
+

@@ -61,6 +61,53 @@ exports.show=function(req, res, next){
 	});
 };
 
+//PUT /quizzes/:id
+exports.update = function(req, res, next) {
+  req.quiz.question = req.body.quiz.question;
+  req.quiz.answer = req.body.quiz.answer;
+
+  req.quiz.save({fields: ["question", "answer"]}).then(function(quiz) {
+	req.flash('success', 'Quiz editado con éxito.');
+	res.redirect('/quizzes');
+  }).catch(Sequelize.ValidationError, function(error) {
+
+	req.flash('error', 'Errores en el formulario:');
+	for (var i in error.errors) {
+	req.flash('error', error.errors[i].value);
+	};
+
+	res.render('quizzes/edit', {quiz: req.quiz});
+	}).catch(function(error) {
+	req.flash('error', 'Error al editar el Quiz: '+error.message);
+	  next(error);
+	});
+};
+
+
+
+
+
+
+
+
+
+
+
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
