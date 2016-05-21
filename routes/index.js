@@ -11,6 +11,16 @@ router.get('/', function(req, res, next) {
 
 //Autoload
 router.param('quizId', quizController.load);
+router.param('userId', userController.load);
+
+// Definición de rutas de cuenta
+router.get('/users',                    userController.index);   // listado usuarios
+router.get('/users/:userId(\\d+)',      userController.show);    // ver un usuario
+router.get('/users/new',                userController.new);     // formulario sign un
+router.post('/users',                   userController.create);     // registrar usuario
+router.get('/users/:userId(\\d+)/edit', userController.edit);
+router.put('/users/:userId(\\d+)',      userController.update);
+router.delete('/users/:userId(\\d+)',   userController.destroy);
 
 //Definición de rutas de /quizzes
 router.get('/quizzes', quizController.index);
