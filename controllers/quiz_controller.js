@@ -49,24 +49,51 @@ exports.check = function(req, res, next) {
 	res.render('quizzes/new',  {quiz: quiz});
 };
 
-//POST /quizzes/create
-  exports.create = function(req, res, next) {
-	var quiz= models.Quiz.build({ question: req.body.quiz.question, answer: req.body.quiz.answer});
-   //guarda en DB los campos pregunta y respuesta de quiz
-	quiz.save({fields: ["question", "answer"]}).then(function(quiz) {
-		req.flash('succes', 'Quiz creado con éxito.');
-		res.redirect('/quizzes'); 
-	}).catch(Sequelize.ValidationError, function(error) {
-		req.flash('error', 'Errores en el formulario:');
-		for(var i in error.errors) {
-		req.flash('error', error.errors[i].value);
-		};
-		res.render('quizzes/new', {quiz: quiz});
-	}).catch(function(error) {
-		req.flash('error', 'Error al crear un Quiz: '+error.message);
-		next(error);
-	});
+// POST /quizzes/create
+exports.create = function(req, res, next) {
+
+    var redir = req.body.redir || '/quizzes'
+
+    var authorId = req.session.user && req.session.user.id || 0;
+    var quiz = { question: req.body.question, 
+                 answer:   req.body.answer,
+                 AuthorId: authorId };
+
+    // Guarda en la tabla Quizzes el nuevo quiz.
+    models.Quiz.create(quiz)
+    .then(function(quiz) {
+        req.flash('success', 'Pregunta y Respuesta guardadas con éxito.');
+
+        if (!req.file) { 
+            req.flash('info', 'Es un Quiz sin imagen.');
+            return; 
+        }    
+
+        // Salvar la imagen en Cloudinary
+        return uploadResourceToCloudinary(req)
+        .then(function(uploadResult) {
+            // Crear nuevo attachment en la BBDD.
+            return createAttachment(req, uploadResult, quiz);
+        });
+    })
+    .then(function() {
+        res.redirect(redir);
+    })
+    .catch(Sequelize.ValidationError, function(error) {
+        req.flash('error', 'Errores en el formulario:');
+        for (var i in error.errors) {
+            req.flash('error', error.errors[i].value);
+        };
+  
+        res.render('quizzes/new', {quiz: quiz,
+                                   redir: redir});
+    })
+    .catch(function(error) {
+        req.flash('error', 'Error al crear un Quiz: '+error.message);
+        next(error);
+    }); 
 };
+
 
 //PUT /quizzes/:id
 exports.update = function(req, res, next) {
