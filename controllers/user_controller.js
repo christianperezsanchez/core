@@ -120,15 +120,23 @@ exports.update = function(req, res, next) {
 
 
 
-//DELETE /users/:id
+// DELETE /users/:id
 exports.destroy = function(req, res, next) {
-	req.user.destroy()
-	.then(function() {
-		req.flash('succes', 'Usuario eliminado con éxito.');
-		res.redirect('/users');
-	}).catch(function(error){
-		next(error);
-	});
+    req.user.destroy()
+        .then(function() {
+
+            // Borrando usuario logeado.
+            if (req.session.user && req.session.user.id === req.user.id) {
+                // borra la sesión y redirige a /
+                delete req.session.user;
+            }
+
+            req.flash('success', 'Usuario eliminado con éxito.');
+            res.redirect('/');
+        })
+        .catch(function(error){ 
+            next(error); 
+        });
 };
 
 
