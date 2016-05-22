@@ -1,23 +1,35 @@
 
-    <h2> Quiz : el juego de las Preguntas</h2>
-	<p>
-    <form method="get" action="/quizzes/<%= quizId %/check>
-    Pregunta: <%= quiz.question %> <p>
+    <h2>Pregunta</h2>
 
-    <input type="text" name="answer" value="<%= answer %>" placeholder="Responda aquí"/>
+<p>
+  <%- include ../favourites/_stars.ejs %>
+  <form method="get" action="/quizzes/<%= quiz.id %>/check">
+    <p>
+      <%= quiz.question %>
+    </p>
 
-    <input type="submit" value="Comprobar">
-    </form>
-	<% if (session.user) { %>
-  	  <p>
-    	    <a href="/quizzes/<%= quiz.id %>/comments/new"><button>Nuevo comentario</button></a>
-  	  </p>
-	<% } %>
-	
+    <% if (quiz.Attachment) { %>
+      <img src="<%= quiz.Attachment.url %>" />
+    <% } else { %> 
+      <img src="/imgs/question.png" width="50px" />
+    <% } %> 
 
-	<p><strong>Comentarios:</strong></p>
+    <p>
+      <input type="text" name="answer" value="<%= answer %>" placeholder="Respuesta" />
+      <input type="submit" value="Comprobar">
+    </p>
+  </form>
+</p>
 
-	<ul>
+<h2>Comentarios</h2>
+
+<% if (session.user) { %>
+  <p>
+    <a href="/quizzes/<%= quiz.id %>/comments/new"><button>Nuevo comentario</button></a>
+  </p>
+<% } %>
+
+<ul>
   <% for (var i in quiz.Comments) { 
        var comment = quiz.Comments[i];
        if (comment.accepted) { %>
