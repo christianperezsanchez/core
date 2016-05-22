@@ -1,6 +1,8 @@
 var models = require('../models');
 var Sequelize = require('sequelize');
 var url = require('url');
+
+
 // Middleware: Se requiere hacer login.
 //
 // Si el usuario ya hizo login anteriormente entonces existira 
@@ -66,7 +68,6 @@ exports.adminAndNotMyselfRequired = function(req, res, next){
 
 
 
-
 /*
  * Autenticar un usuario: Comprueba si el usuario esta registrado en users
  *
@@ -86,6 +87,8 @@ var authenticate = function(login, password) {
         });
 }; 
 
+
+
 // GET /session   -- Formulario de login
 //
 // Paso como parametro el valor de redir (es una url a la que 
@@ -104,6 +107,7 @@ exports.new = function(req, res, next) {
 
     res.render('session/new', { redir: redir });
 };
+
 
 // POST /session   -- Crear la sesion si usuario se autentica
 exports.create = function(req, res, next) {
@@ -133,5 +137,11 @@ exports.create = function(req, res, next) {
 };
 
 
+// DELETE /session   -- Destruir sesion 
+exports.destroy = function(req, res, next) {
 
+    delete req.session.user;
+    
+    res.redirect("/session"); // redirect a login
+};
 

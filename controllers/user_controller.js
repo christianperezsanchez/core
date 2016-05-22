@@ -1,5 +1,7 @@
 var models = require('../models');
 var Sequelize = require('sequelize');
+var paginate = require('./paginate').paginate;
+
 
 // Autoload el user asociado a :userId
 exports.load = function(req, res, next, userId) {
@@ -17,26 +19,48 @@ exports.load = function(req, res, next, userId) {
 };
 
 
-//GET /users
+// GET /users
+exports.index = function(req, res, next) {
 
-exports.index = function(req,res, next)  {
-	models.User.findAll({order: ['username']})
-	.then(function(users) {
-		res.render('users/index', {users:users } )
-	}).catch(function(error) {next(error); });
+    models.User.count()
+    .then(function(count) {
+
+        // Paginacion:
+
+        var items_per_page = 6;
+
+        // La pagina a mostrar viene en la query
+        var pageno = parseInt(req.query.pageno) || 1;
+
+        // Datos para obtener el rango de datos a buscar en la BBDD.
+        var pagination = {
+            offset: items_per_page * (pageno - 1),
+            limit: items_per_page
+        };
+
+        // Crear un string con el HTML que pinta la botonera de paginacion.
+        // Lo añado como una variable local de res para que lo pinte el layout de la aplicacion.
+        res.locals.paginate_control = paginate(count, items_per_page, pageno, req.url);
+
+        return pagination;
+    })
+    .then(function(pagination) {
+
+        return models.User.findAll({offset: pagination.offset,
+                                    limit: pagination.limit,
+                                    order: ['username']});
+    })
+    .then(function(users) {
+        res.render('users/index', { users: users });
+    })
+    .catch(function(error) { next(error); });
 };
-
-
-
-
-
 
 
 // GET /users/:id
 exports.show = function(req, res, next) {
     res.render('users/show', {user: req.user});
 };
-
 
 
 // GET /users/new
@@ -46,6 +70,7 @@ exports.new = function(req, res, next) {
 
     res.render('users/new', { user: user });
 };
+
 
 // POST /users
 exports.create = function(req, res, next) {
@@ -87,6 +112,7 @@ exports.edit = function(req, res, next) {
     res.render('users/edit', { user: req.user });  // req.user: instancia de user cargada con autoload
 };            
 
+
 // PUT /users/:id
 exports.update = function(req, res, next) {
 
@@ -119,7 +145,6 @@ exports.update = function(req, res, next) {
 };
 
 
-
 // DELETE /users/:id
 exports.destroy = function(req, res, next) {
     req.user.destroy()
@@ -138,28 +163,5 @@ exports.destroy = function(req, res, next) {
             next(error); 
         });
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 

@@ -9,7 +9,8 @@
   <b>Es Administrador:</b>
   <%= user.isAdmin ? "Si" : "No" %>
 </p>
-  <% if (session.user) { %>
+
+<% if (session.user) { %>
   <p>
     <% if (session.user.isAdmin || session.user.id === user.id) { %>
       <a href="/users/<%= user.id %>/edit"> 
