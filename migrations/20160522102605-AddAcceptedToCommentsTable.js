@@ -2,15 +2,15 @@
 
 module.exports = {
   up: function (queryInterface, Sequelize) {
-      return  queryInterface.addColumn( 'Comments', 
-                                        'accepted', 
-                                        { type: Sequelize.BOOLEAN,
-                                          defaultValue: false 
-                                        }
-                                      );
+    return queryInterface.addColumn('Comments',
+                                    'accepted',
+                                    { type: Sequelize.BOOLEAN,
+                                      defaultValue: false
+                                    }
+                                    );
   },
 
   down: function (queryInterface, Sequelize) {
-      return queryInterface.removeColumn('Comments','accepted');
+    return queryInterface.removeColumn('Comments', 'accepted');
   }
 };
