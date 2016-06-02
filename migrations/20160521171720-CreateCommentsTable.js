@@ -2,7 +2,7 @@
 
 module.exports = {
   up: function (queryInterface, Sequelize) {
-    return queryInterface.createTable(
+      return queryInterface.createTable(
            'Comments', 
            { id:        { type: Sequelize.INTEGER,  allowNull: false,
                           primaryKey: true,         autoIncrement: true,  
@@ -19,7 +19,6 @@ module.exports = {
   },
 
   down: function (queryInterface, Sequelize) {
-    down: function (queryInterface, Sequelize) {
       return queryInterface.dropTable('Comments');
   }
 };

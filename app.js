@@ -46,6 +46,29 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(partials());
 app.use(flash());
 
+app.use(function(req, res, next){
+ 
+  //compruebo que el usuario no esta logueado
+  if (!req.session.user){
+    //console.log('No logueado');
+    next();
+  }
+  else{
+    //compruebo si la sesion ha caducado
+    if(req.session.user.expire <= new Date().getTime()){
+      //destruyo la sesion
+      //console.log('Sesion expirada:');
+      delete req.session.user;
+      next();
+    }
+    else{
+      //console.log('Sesion no expirada:');
+      req.session.user.expire = new Date().getTime() + 120000;
+      next();
+  }
+ }
+});
+
 // Helper dinamico:
 app.use(function(req, res, next) {
 

@@ -116,13 +116,15 @@ exports.create = function(req, res, next) {
 
     var login     = req.body.login;
     var password  = req.body.password;
+    var date = new Date();
+    var expire = date.getTime() + 120000;
 
     authenticate(login, password)
         .then(function(user) {
             if (user) {
     	        // Crear req.session.user y guardar campos id y username
     	        // La sesión se define por la existencia de: req.session.user
-    	        req.session.user = {id:user.id, username:user.username, isAdmin:user.isAdmin};
+    	        req.session.user = {id:user.id, username:user.username, isAdmin:user.isAdmin, expire: expire};
 
                 res.redirect(redir); // redirección a redir
             } else {

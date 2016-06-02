@@ -49,3 +49,5 @@ module.exports = {
         return queryInterface.dropTable('Attachments');
   }
 };
+
+
